@@ -27,15 +27,16 @@ def get_collection() -> Collection[dict]:
         try:
             client = MongoClient(
                 MONGO_URI,
-                serverSelectionTimeoutMS=10000,
-                connectTimeoutMS=10000,
-                socketTimeoutMS=10000
+                serverSelectionTimeoutMS=15000,
+                connectTimeoutMS=15000,
+                socketTimeoutMS=30000
             )
             client.admin.command('ping')
             col = client[DB_NAME]["items"]
         except Exception as e:
-            print(f"Using local MongoDB: {e}")
+            print(f"Atlas failed ({e}), trying local...")
             client = MongoClient(LOCAL_MONGO)
+            client.admin.command('ping')
             col = client[DB_NAME]["items"]
     return col
 
