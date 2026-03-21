@@ -227,132 +227,108 @@ def kcal_info():
 
 @app.route("/api/seed", methods=["POST"])
 def seed_data():
-    col = get_collection()
-    col.delete_many({})
-    
-    ahora = datetime.now(timezone.utc)
-    
-    items = [
-        # Refrigerador - Frutas
-        {"nombre": "Manzana", "cantidad": 6, "unidad": "pzas", "categoria": "refri", "kcal": 52, "proteinas": 0.3, "grasas": 0.2, "carbohidratos": 14},
-        {"nombre": "Plátano", "cantidad": 8, "unidad": "pzas", "categoria": "refri", "kcal": 89, "proteinas": 1.1, "grasas": 0.3, "carbohidratos": 23},
-        {"nombre": "Naranja", "cantidad": 5, "unidad": "pzas", "categoria": "refri", "kcal": 47, "proteinas": 0.9, "grasas": 0.1, "carbohidratos": 12},
-        {"nombre": "Aguacate", "cantidad": 2, "unidad": "pzas", "categoria": "refri", "kcal": 160, "proteinas": 2, "grasas": 15, "carbohidratos": 9},
-        {"nombre": "Limón", "cantidad": 10, "unidad": "pzas", "categoria": "refri", "kcal": 29, "proteinas": 1.1, "grasas": 0.3, "carbohidratos": 9},
-        {"nombre": "Uvas", "cantidad": 1, "unidad": "bandeja", "categoria": "refri", "kcal": 69, "proteinas": 0.7, "grasas": 0.2, "carbohidratos": 18},
-        {"nombre": "Fresas", "cantidad": 1, "unidad": "caja", "categoria": "refri", "kcal": 32, "proteinas": 0.7, "grasas": 0.3, "carbohidratos": 8},
+    try:
+        col = get_collection()
+        col.delete_many({})
         
-        # Refrigerador - Verduras
-        {"nombre": "Lechuga", "cantidad": 1, "unidad": "cabeza", "categoria": "refri", "kcal": 15, "proteinas": 1.4, "grasas": 0.2, "carbohidratos": 3},
-        {"nombre": "Jitomate", "cantidad": 5, "unidad": "pzas", "categoria": "refri", "kcal": 18, "proteinas": 0.9, "grasas": 0.2, "carbohidratos": 4},
-        {"nombre": "Cebolla", "cantidad": 3, "unidad": "pzas", "categoria": "refri", "kcal": 40, "proteinas": 1.1, "grasas": 0.1, "carbohidratos": 9},
-        {"nombre": "Pepino", "cantidad": 2, "unidad": "pzas", "categoria": "refri", "kcal": 15, "proteinas": 0.7, "grasas": 0.1, "carbohidratos": 3.6},
-        {"nombre": "Chile", "cantidad": 4, "unidad": "pzas", "categoria": "refri", "kcal": 20, "proteinas": 1, "grasas": 0.2, "carbohidratos": 4},
-        {"nombre": "Zanahoria", "cantidad": 5, "unidad": "pzas", "categoria": "refri", "kcal": 41, "proteinas": 0.9, "grasas": 0.2, "carbohidratos": 10},
-        {"nombre": "Calabacita", "cantidad": 3, "unidad": "pzas", "categoria": "refri", "kcal": 17, "proteinas": 1.2, "grasas": 0.3, "carbohidratos": 3},
-        {"nombre": "Brócoli", "cantidad": 1, "unidad": "manojo", "categoria": "refri", "kcal": 34, "proteinas": 2.8, "grasas": 0.4, "carbohidratos": 7},
+        ahora = datetime.now(timezone.utc)
         
-        # Refrigerador - Carnes y Lácteos
-        {"nombre": "Huevos", "cantidad": 24, "unidad": "pzas", "categoria": "refri", "kcal": 155, "proteinas": 13, "grasas": 11, "carbohidratos": 1.1},
-        {"nombre": "Pollo", "cantidad": 1, "unidad": "kg", "categoria": "refri", "kcal": 165, "proteinas": 31, "grasas": 3.6, "carbohidratos": 0},
-        {"nombre": "Res molida", "cantidad": 0.5, "unidad": "kg", "categoria": "refri", "kcal": 250, "proteinas": 26, "grasas": 15, "carbohidratos": 0},
-        {"nombre": "Jamón", "cantidad": 0.4, "unidad": "kg", "categoria": "refri", "kcal": 145, "proteinas": 21, "grasas": 6, "carbohidratos": 1.5},
-        {"nombre": "Leche", "cantidad": 2, "unidad": "L", "categoria": "refri", "kcal": 42, "proteinas": 3.4, "grasas": 1, "carbohidratos": 5},
-        {"nombre": "Yogur", "cantidad": 4, "unidad": "pzas", "categoria": "refri", "kcal": 61, "proteinas": 3.5, "grasas": 3.3, "carbohidratos": 4.7},
-        {"nombre": "Queso", "cantidad": 0.3, "unidad": "kg", "categoria": "refri", "kcal": 350, "proteinas": 25, "grasas": 28, "carbohidratos": 1},
-        {"nombre": "Mantequilla", "cantidad": 1, "unidad": "barra", "categoria": "refri", "kcal": 717, "proteinas": 1, "grasas": 81, "carbohidratos": 0.1},
-        {"nombre": "Crema", "cantidad": 1, "unidad": "litro", "categoria": "refri", "kcal": 210, "proteinas": 2.9, "grasas": 21, "carbohidratos": 3.6},
+        items = [
+            {"nombre": "Manzana", "cantidad": 6, "unidad": "pzas", "categoria": "refri", "kcal": 52, "proteinas": 0.3, "grasas": 0.2, "carbohidratos": 14},
+            {"nombre": "Plátano", "cantidad": 8, "unidad": "pzas", "categoria": "refri", "kcal": 89, "proteinas": 1.1, "grasas": 0.3, "carbohidratos": 23},
+            {"nombre": "Naranja", "cantidad": 5, "unidad": "pzas", "categoria": "refri", "kcal": 47, "proteinas": 0.9, "grasas": 0.1, "carbohidratos": 12},
+            {"nombre": "Aguacate", "cantidad": 2, "unidad": "pzas", "categoria": "refri", "kcal": 160, "proteinas": 2, "grasas": 15, "carbohidratos": 9},
+            {"nombre": "Limón", "cantidad": 10, "unidad": "pzas", "categoria": "refri", "kcal": 29, "proteinas": 1.1, "grasas": 0.3, "carbohidratos": 9},
+            {"nombre": "Uvas", "cantidad": 1, "unidad": "bandeja", "categoria": "refri", "kcal": 69, "proteinas": 0.7, "grasas": 0.2, "carbohidratos": 18},
+            {"nombre": "Fresas", "cantidad": 1, "unidad": "caja", "categoria": "refri", "kcal": 32, "proteinas": 0.7, "grasas": 0.3, "carbohidratos": 8},
+            {"nombre": "Lechuga", "cantidad": 1, "unidad": "cabeza", "categoria": "refri", "kcal": 15, "proteinas": 1.4, "grasas": 0.2, "carbohidratos": 3},
+            {"nombre": "Jitomate", "cantidad": 5, "unidad": "pzas", "categoria": "refri", "kcal": 18, "proteinas": 0.9, "grasas": 0.2, "carbohidratos": 4},
+            {"nombre": "Cebolla", "cantidad": 3, "unidad": "pzas", "categoria": "refri", "kcal": 40, "proteinas": 1.1, "grasas": 0.1, "carbohidratos": 9},
+            {"nombre": "Pepino", "cantidad": 2, "unidad": "pzas", "categoria": "refri", "kcal": 15, "proteinas": 0.7, "grasas": 0.1, "carbohidratos": 3.6},
+            {"nombre": "Chile", "cantidad": 4, "unidad": "pzas", "categoria": "refri", "kcal": 20, "proteinas": 1, "grasas": 0.2, "carbohidratos": 4},
+            {"nombre": "Zanahoria", "cantidad": 5, "unidad": "pzas", "categoria": "refri", "kcal": 41, "proteinas": 0.9, "grasas": 0.2, "carbohidratos": 10},
+            {"nombre": "Calabacita", "cantidad": 3, "unidad": "pzas", "categoria": "refri", "kcal": 17, "proteinas": 1.2, "grasas": 0.3, "carbohidratos": 3},
+            {"nombre": "Brócoli", "cantidad": 1, "unidad": "manojo", "categoria": "refri", "kcal": 34, "proteinas": 2.8, "grasas": 0.4, "carbohidratos": 7},
+            {"nombre": "Huevos", "cantidad": 24, "unidad": "pzas", "categoria": "refri", "kcal": 155, "proteinas": 13, "grasas": 11, "carbohidratos": 1.1},
+            {"nombre": "Pollo", "cantidad": 1, "unidad": "kg", "categoria": "refri", "kcal": 165, "proteinas": 31, "grasas": 3.6, "carbohidratos": 0},
+            {"nombre": "Res molida", "cantidad": 0.5, "unidad": "kg", "categoria": "refri", "kcal": 250, "proteinas": 26, "grasas": 15, "carbohidratos": 0},
+            {"nombre": "Jamón", "cantidad": 0.4, "unidad": "kg", "categoria": "refri", "kcal": 145, "proteinas": 21, "grasas": 6, "carbohidratos": 1.5},
+            {"nombre": "Leche", "cantidad": 2, "unidad": "L", "categoria": "refri", "kcal": 42, "proteinas": 3.4, "grasas": 1, "carbohidratos": 5},
+            {"nombre": "Yogur", "cantidad": 4, "unidad": "pzas", "categoria": "refri", "kcal": 61, "proteinas": 3.5, "grasas": 3.3, "carbohidratos": 4.7},
+            {"nombre": "Queso", "cantidad": 0.3, "unidad": "kg", "categoria": "refri", "kcal": 350, "proteinas": 25, "grasas": 28, "carbohidratos": 1},
+            {"nombre": "Mantequilla", "cantidad": 1, "unidad": "barra", "categoria": "refri", "kcal": 717, "proteinas": 1, "grasas": 81, "carbohidratos": 0.1},
+            {"nombre": "Crema", "cantidad": 1, "unidad": "litro", "categoria": "refri", "kcal": 210, "proteinas": 2.9, "grasas": 21, "carbohidratos": 3.6},
+            {"nombre": "Jugo de naranja", "cantidad": 2, "unidad": "L", "categoria": "refri", "kcal": 45, "proteinas": 0.7, "grasas": 0.2, "carbohidratos": 10},
+            {"nombre": "Coca-Cola", "cantidad": 2, "unidad": "L", "categoria": "refri", "kcal": 42, "proteinas": 0, "grasas": 0, "carbohidratos": 11},
+            {"nombre": "Papel de baño", "cantidad": 12, "unidad": "rollos", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
+            {"nombre": "Servilletas", "cantidad": 2, "unidad": "paquetes", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
+            {"nombre": "Jabón de trastes", "cantidad": 1, "unidad": "botella", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
+            {"nombre": "Jabón líquido ropa", "cantidad": 1, "unidad": "botella", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
+            {"nombre": "Cloro", "cantidad": 1, "unidad": "botella", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
+            {"nombre": "Suavizante", "cantidad": 1, "unidad": "botella", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
+            {"nombre": "Detergente", "cantidad": 1, "unidad": "bolsa", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
+            {"nombre": "Bolsa basura", "cantidad": 3, "unidad": "pzas", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
+            {"nombre": "Bolsas de plástico", "cantidad": 1, "unidad": "paquete", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
+            {"nombre": "Esponjas", "cantidad": 3, "unidad": "pzas", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
+            {"nombre": "Trapeador", "cantidad": 1, "unidad": "pza", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
+            {"nombre": "Focos", "cantidad": 4, "unidad": "pzas", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
+            {"nombre": "Pilas AA", "cantidad": 8, "unidad": "pzas", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
+            {"nombre": "Pilas AAA", "cantidad": 4, "unidad": "pzas", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
+            {"nombre": "Velas", "cantidad": 6, "unidad": "pzas", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
+            {"nombre": "Limpiador multiusos", "cantidad": 1, "unidad": "botella", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
+            {"nombre": "Desinfectante", "cantidad": 1, "unidad": "botella", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
+            {"nombre": "Alcohol", "cantidad": 1, "unidad": "botella", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
+            {"nombre": "Algodón", "cantidad": 1, "unidad": "paquete", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
+            {"nombre": "Cinta adhesiva", "cantidad": 2, "unidad": "pzas", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
+            {"nombre": "Croquetas perro", "cantidad": 0, "unidad": "kg", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
+            {"nombre": "Arena gato", "cantidad": 0, "unidad": "kg", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
+            {"nombre": "Tortillas harina", "cantidad": 1, "unidad": "paquete", "categoria": "despensa", "kcal": 304, "proteinas": 8, "grasas": 8, "carbohidratos": 50},
+            {"nombre": "Tortillas maíz", "cantidad": 1, "unidad": "kg", "categoria": "despensa", "kcal": 218, "proteinas": 5.7, "grasas": 2.8, "carbohidratos": 45},
+            {"nombre": "Pan Bimbo", "cantidad": 1, "unidad": "paquete", "categoria": "despensa", "kcal": 260, "proteinas": 9, "grasas": 3, "carbohidratos": 48},
+            {"nombre": "Galletas", "cantidad": 3, "unidad": "paquetes", "categoria": "despensa", "kcal": 440, "proteinas": 7, "grasas": 14, "carbohidratos": 70},
+            {"nombre": "Arroz", "cantidad": 2, "unidad": "kg", "categoria": "despensa", "kcal": 360, "proteinas": 7, "grasas": 0.6, "carbohidratos": 79},
+            {"nombre": "Frijoles", "cantidad": 1, "unidad": "kg", "categoria": "despensa", "kcal": 78, "proteinas": 5, "grasas": 0.4, "carbohidratos": 14},
+            {"nombre": "Pasta", "cantidad": 5, "unidad": "paquetes", "categoria": "despensa", "kcal": 360, "proteinas": 12, "grasas": 1.5, "carbohidratos": 75},
+            {"nombre": "Avena", "cantidad": 1, "unidad": "kg", "categoria": "despensa", "kcal": 389, "proteinas": 17, "grasas": 7, "carbohidratos": 66},
+            {"nombre": "Harina", "cantidad": 1, "unidad": "kg", "categoria": "despensa", "kcal": 364, "proteinas": 10, "grasas": 1, "carbohidratos": 76},
+            {"nombre": "Azúcar", "cantidad": 1, "unidad": "kg", "categoria": "despensa", "kcal": 387, "proteinas": 0, "grasas": 0, "carbohidratos": 100},
+            {"nombre": "Sal", "cantidad": 1, "unidad": "kg", "categoria": "despensa", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
+            {"nombre": "Aceite vegetal", "cantidad": 1, "unidad": "L", "categoria": "despensa", "kcal": 884, "proteinas": 0, "grasas": 100, "carbohidratos": 0},
+            {"nombre": "Aceite oliva", "cantidad": 1, "unidad": "L", "categoria": "despensa", "kcal": 884, "proteinas": 0, "grasas": 100, "carbohidratos": 0},
+            {"nombre": "Catsup", "cantidad": 1, "unidad": "botella", "categoria": "despensa", "kcal": 112, "proteinas": 1.7, "grasas": 0.1, "carbohidratos": 27},
+            {"nombre": "Mayonesa", "cantidad": 1, "unidad": "botella", "categoria": "despensa", "kcal": 680, "proteinas": 1, "grasas": 75, "carbohidratos": 1},
+            {"nombre": "Mostaza", "cantidad": 1, "unidad": "botella", "categoria": "despensa", "kcal": 66, "proteinas": 4, "grasas": 4, "carbohidratos": 5},
+            {"nombre": "Salsa soy", "cantidad": 1, "unidad": "botella", "categoria": "despensa", "kcal": 60, "proteinas": 8, "grasas": 0, "carbohidratos": 6},
+            {"nombre": "Salsa Valentina", "cantidad": 1, "unidad": "botella", "categoria": "despensa", "kcal": 10, "proteinas": 0, "grasas": 0, "carbohidratos": 2},
+            {"nombre": "Chile seco", "cantidad": 1, "unidad": "bolsa", "categoria": "despensa", "kcal": 20, "proteinas": 1, "grasas": 0.5, "carbohidratos": 4},
+            {"nombre": "Atún", "cantidad": 3, "unidad": "latas", "categoria": "despensa", "kcal": 132, "proteinas": 29, "grasas": 1, "carbohidratos": 0},
+            {"nombre": "Verduras enlatadas", "cantidad": 2, "unidad": "latas", "categoria": "despensa", "kcal": 25, "proteinas": 1, "grasas": 0.2, "carbohidratos": 5},
+            {"nombre": "Frijoles enlatados", "cantidad": 4, "unidad": "latas", "categoria": "despensa", "kcal": 78, "proteinas": 5, "grasas": 0.4, "carbohidratos": 14},
+            {"nombre": "Elote enlatado", "cantidad": 2, "unidad": "latas", "categoria": "despensa", "kcal": 93, "proteinas": 3, "grasas": 1, "carbohidratos": 19},
+            {"nombre": "Café", "cantidad": 2, "unidad": "paquetes", "categoria": "despensa", "kcal": 2, "proteinas": 0.3, "grasas": 0, "carbohidratos": 0},
+            {"nombre": "Azúcar glass", "cantidad": 0, "unidad": "kg", "categoria": "despensa", "kcal": 387, "proteinas": 0, "grasas": 0, "carbohidratos": 100},
+            {"nombre": "Miel", "cantidad": 0, "unidad": "botella", "categoria": "despensa", "kcal": 304, "proteinas": 0.3, "grasas": 0, "carbohidratos": 82},
+            {"nombre": "Mermelada", "cantidad": 1, "unidad": "frasco", "categoria": "despensa", "kcal": 250, "proteinas": 0.3, "grasas": 0.2, "carbohidratos": 65},
+            {"nombre": "Leche condensada", "cantidad": 2, "unidad": "latas", "categoria": "despensa", "kcal": 321, "proteinas": 8, "grasas": 9, "carbohidratos": 54},
+            {"nombre": "Leche evaporada", "cantidad": 2, "unidad": "latas", "categoria": "despensa", "kcal": 140, "proteinas": 7, "grasas": 8, "carbohidratos": 11},
+            {"nombre": "Pimienta", "cantidad": 1, "unidad": "frasco", "categoria": "despensa", "kcal": 251, "proteinas": 10, "grasas": 3, "carbohidratos": 64},
+            {"nombre": "Comino", "cantidad": 1, "unidad": "frasco", "categoria": "despensa", "kcal": 375, "proteinas": 18, "grasas": 22, "carbohidratos": 21},
+            {"nombre": "Orégano", "cantidad": 1, "unidad": "frasco", "categoria": "despensa", "kcal": 265, "proteinas": 9, "grasas": 4, "carbohidratos": 49},
+            {"nombre": "Canela", "cantidad": 1, "unidad": "frasco", "categoria": "despensa", "kcal": 247, "proteinas": 4, "grasas": 1, "carbohidratos": 81},
+            {"nombre": "Ajo en polvo", "cantidad": 1, "unidad": "frasco", "categoria": "despensa", "kcal": 331, "proteinas": 17, "grasas": 0.7, "carbohidratos": 73},
+            {"nombre": "Chile en polvo", "cantidad": 1, "unidad": "frasco", "categoria": "despensa", "kcal": 318, "proteinas": 12, "grasas": 13, "carbohidratos": 50},
+            {"nombre": "Cacahuates", "cantidad": 2, "unidad": "paquetes", "categoria": "despensa", "kcal": 567, "proteinas": 26, "grasas": 49, "carbohidratos": 16},
+            {"nombre": "Palomitas", "cantidad": 3, "unidad": "bolsas", "categoria": "despensa", "kcal": 375, "proteinas": 10, "grasas": 18, "carbohidratos": 48},
+            {"nombre": "Chocolate", "cantidad": 3, "unidad": "barras", "categoria": "despensa", "kcal": 546, "proteinas": 5, "grasas": 31, "carbohidratos": 59},
+        ]
         
-        # Refrigerador - Bebidas y Otros
-        {"nombre": "Jugo de naranja", "cantidad": 2, "unidad": "L", "categoria": "refri", "kcal": 45, "proteinas": 0.7, "grasas": 0.2, "carbohidratos": 10},
-        {"nombre": "Coca-Cola", "cantidad": 2, "unidad": "L", "categoria": "refri", "kcal": 42, "proteinas": 0, "grasas": 0, "carbohidratos": 11},
+        for item in items:
+            item["creado_en"] = ahora
         
-        # Alacena - HOGAR (no es comida)
-        {"nombre": "Papel de baño", "cantidad": 12, "unidad": "rollos", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
-        {"nombre": "Servilletas", "cantidad": 2, "unidad": "paquetes", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
-        {"nombre": "Jabón de trastes", "cantidad": 1, "unidad": "botella", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
-        {"nombre": "Jabón líquido ropa", "cantidad": 1, "unidad": "botella", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
-        {"nombre": "Cloro", "cantidad": 1, "unidad": "botella", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
-        {"nombre": "Suavizante", "cantidad": 1, "unidad": "botella", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
-        {"nombre": "Detergente", "cantidad": 1, "unidad": "bolsa", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
-        {"nombre": "Bolsa basura", "cantidad": 3, "unidad": "pzas", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
-        {"nombre": "Bolsas de plástico", "cantidad": 1, "unidad": "paquete", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
-        {"nombre": "Esponjas", "cantidad": 3, "unidad": "pzas", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
-        {"nombre": "Trapeador", "cantidad": 1, "unidad": "pza", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
-        {"nombre": "Focos", "cantidad": 4, "unidad": "pzas", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
-        {"nombre": "Pilas AA", "cantidad": 8, "unidad": "pzas", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
-        {"nombre": "Pilas AAA", "cantidad": 4, "unidad": "pzas", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
-        {"nombre": "Velas", "cantidad": 6, "unidad": "pzas", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
-        
-        # Alacena - Limpieza
-        {"nombre": "Limpiador multiusos", "cantidad": 1, "unidad": "botella", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
-        {"nombre": "Desinfectante", "cantidad": 1, "unidad": "botella", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
-        {"nombre": "Alcohol", "cantidad": 1, "unidad": "botella", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
-        {"nombre": "Algodón", "cantidad": 1, "unidad": "paquete", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
-        {"nombre": "Cinta adhesiva", "cantidad": 2, "unidad": "pzas", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
-        
-        # Alacena - Mascotas
-        {"nombre": "Croquetas perro", "cantidad": 0, "unidad": "kg", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
-        {"nombre": "Arena gato", "cantidad": 0, "unidad": "kg", "categoria": "alacena", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
-        
-        # Despensa - Comida
-        {"nombre": "Tortillas harina", "cantidad": 1, "unidad": "paquete", "categoria": "despensa", "kcal": 304, "proteinas": 8, "grasas": 8, "carbohidratos": 50},
-        {"nombre": "Tortillas maíz", "cantidad": 1, "unidad": "kg", "categoria": "despensa", "kcal": 218, "proteinas": 5.7, "grasas": 2.8, "carbohidratos": 45},
-        {"nombre": "Pan Bimbo", "cantidad": 1, "unidad": "paquete", "categoria": "despensa", "kcal": 260, "proteinas": 9, "grasas": 3, "carbohidratos": 48},
-        {"nombre": "Galletas", "cantidad": 3, "unidad": "paquetes", "categoria": "despensa", "kcal": 440, "proteinas": 7, "grasas": 14, "carbohidratos": 70},
-        {"nombre": "Arroz", "cantidad": 2, "unidad": "kg", "categoria": "despensa", "kcal": 360, "proteinas": 7, "grasas": 0.6, "carbohidratos": 79},
-        {"nombre": "Frijoles", "cantidad": 1, "unidad": "kg", "categoria": "despensa", "kcal": 78, "proteinas": 5, "grasas": 0.4, "carbohidratos": 14},
-        {"nombre": "Pasta", "cantidad": 5, "unidad": "paquetes", "categoria": "despensa", "kcal": 360, "proteinas": 12, "grasas": 1.5, "carbohidratos": 75},
-        {"nombre": "Avena", "cantidad": 1, "unidad": "kg", "categoria": "despensa", "kcal": 389, "proteinas": 17, "grasas": 7, "carbohidratos": 66},
-        {"nombre": "Harina", "cantidad": 1, "unidad": "kg", "categoria": "despensa", "kcal": 364, "proteinas": 10, "grasas": 1, "carbohidratos": 76},
-        {"nombre": "Azúcar", "cantidad": 1, "unidad": "kg", "categoria": "despensa", "kcal": 387, "proteinas": 0, "grasas": 0, "carbohidratos": 100},
-        {"nombre": "Sal", "cantidad": 1, "unidad": "kg", "categoria": "despensa", "kcal": 0, "proteinas": 0, "grasas": 0, "carbohidratos": 0},
-        {"nombre": "Aceite vegetal", "cantidad": 1, "unidad": "L", "categoria": "despensa", "kcal": 884, "proteinas": 0, "grasas": 100, "carbohidratos": 0},
-        {"nombre": "Aceite oliva", "cantidad": 1, "unidad": "L", "categoria": "despensa", "kcal": 884, "proteinas": 0, "grasas": 100, "carbohidratos": 0},
-        
-        # Despensa - Salsas y Condimentos
-        {"nombre": "Catsup", "cantidad": 1, "unidad": "botella", "categoria": "despensa", "kcal": 112, "proteinas": 1.7, "grasas": 0.1, "carbohidratos": 27},
-        {"nombre": "Mayonesa", "cantidad": 1, "unidad": "botella", "categoria": "despensa", "kcal": 680, "proteinas": 1, "grasas": 75, "carbohidratos": 1},
-        {"nombre": "Mostaza", "cantidad": 1, "unidad": "botella", "categoria": "despensa", "kcal": 66, "proteinas": 4, "grasas": 4, "carbohidratos": 5},
-        {"nombre": "Salsa soy", "cantidad": 1, "unidad": "botella", "categoria": "despensa", "kcal": 60, "proteinas": 8, "grasas": 0, "carbohidratos": 6},
-        {"nombre": "Salsa Valentina", "cantidad": 1, "unidad": "botella", "categoria": "despensa", "kcal": 10, "proteinas": 0, "grasas": 0, "carbohidratos": 2},
-        {"nombre": "Chile seco", "cantidad": 1, "unidad": "bolsa", "categoria": "despensa", "kcal": 20, "proteinas": 1, "grasas": 0.5, "carbohidratos": 4},
-        
-        # Despensa - Enlatados
-        {"nombre": "Atún", "cantidad": 3, "unidad": "latas", "categoria": "despensa", "kcal": 132, "proteinas": 29, "grasas": 1, "carbohidratos": 0},
-        {"nombre": "Verduras enlatadas", "cantidad": 2, "unidad": "latas", "categoria": "despensa", "kcal": 25, "proteinas": 1, "grasas": 0.2, "carbohidratos": 5},
-        {"nombre": "Frijoles enlatados", "cantidad": 4, "unidad": "latas", "categoria": "despensa", "kcal": 78, "proteinas": 5, "grasas": 0.4, "carbohidratos": 14},
-        {"nombre": "Elote enlatado", "cantidad": 2, "unidad": "latas", "categoria": "despensa", "kcal": 93, "proteinas": 3, "grasas": 1, "carbohidratos": 19},
-        
-        # Despensa - Café y Otros
-        {"nombre": "Café", "cantidad": 2, "unidad": "paquetes", "categoria": "despensa", "kcal": 2, "proteinas": 0.3, "grasas": 0, "carbohidratos": 0},
-        {"nombre": "Azúcar glass", "cantidad": 0, "unidad": "kg", "categoria": "despensa", "kcal": 387, "proteinas": 0, "grasas": 0, "carbohidratos": 100},
-        {"nombre": "Miel", "cantidad": 0, "unidad": "botella", "categoria": "despensa", "kcal": 304, "proteinas": 0.3, "grasas": 0, "carbohidratos": 82},
-        {"nombre": "Mermelada", "cantidad": 1, "unidad": "frasco", "categoria": "despensa", "kcal": 250, "proteinas": 0.3, "grasas": 0.2, "carbohidratos": 65},
-        
-        # Despensa - Lácteos no refrigerados
-        {"nombre": "Leche condensada", "cantidad": 2, "unidad": "latas", "categoria": "despensa", "kcal": 321, "proteinas": 8, "grasas": 9, "carbohidratos": 54},
-        {"nombre": "Leche evaporada", "cantidad": 2, "unidad": "latas", "categoria": "despensa", "kcal": 140, "proteinas": 7, "grasas": 8, "carbohidratos": 11},
-        
-        # Despensa - Especias
-        {"nombre": "Pimienta", "cantidad": 1, "unidad": "frasco", "categoria": "despensa", "kcal": 251, "proteinas": 10, "grasas": 3, "carbohidratos": 64},
-        {"nombre": "Comino", "cantidad": 1, "unidad": "frasco", "categoria": "despensa", "kcal": 375, "proteinas": 18, "grasas": 22, "carbohidratos": 21},
-        {"nombre": "Orégano", "cantidad": 1, "unidad": "frasco", "categoria": "despensa", "kcal": 265, "proteinas": 9, "grasas": 4, "carbohidratos": 49},
-        {"nombre": "Canela", "cantidad": 1, "unidad": "frasco", "categoria": "despensa", "kcal": 247, "proteinas": 4, "grasas": 1, "carbohidratos": 81},
-        {"nombre": "Ajo en polvo", "cantidad": 1, "unidad": "frasco", "categoria": "despensa", "kcal": 331, "proteinas": 17, "grasas": 0.7, "carbohidratos": 73},
-        {"nombre": "Chile en polvo", "cantidad": 1, "unidad": "frasco", "categoria": "despensa", "kcal": 318, "proteinas": 12, "grasas": 13, "carbohidratos": 50},
-        
-        # Despensa - Snacks
-        {"nombre": "Cacahuates", "cantidad": 2, "unidad": "paquetes", "categoria": "despensa", "kcal": 567, "proteinas": 26, "grasas": 49, "carbohidratos": 16},
-        {"nombre": "Palomitas", "cantidad": 3, "unidad": "bolsas", "categoria": "despensa", "kcal": 375, "proteinas": 10, "grasas": 18, "carbohidratos": 48},
-        {"nombre": "Chocolate", "cantidad": 3, "unidad": "barras", "categoria": "despensa", "kcal": 546, "proteinas": 5, "grasas": 31, "carbohidratos": 59},
-    ]
-    
-    for item in items:
-        item["creado_en"] = ahora
-    
-    col.insert_many(items)
-    return {"ok": True, "inserted": len(items)}
+        col.insert_many(items)
+        return {"ok": True, "inserted": len(items)}
+    except Exception as e:
+        return {"error": str(e)}, 500
 
 # ============ HTML TEMPLATE ============
 
