@@ -59,34 +59,46 @@ def get_consumo_collection() -> Collection[dict]:
 
 # ============ API ENDPOINTS ============
 
+@app.route("/api/health", methods=["GET"])
+def health():
+    try:
+        col = get_collection()
+        count = col.count_documents({})
+        return {"status": "ok", "items": count}
+    except Exception as e:
+        return {"status": "error", "error": str(e)}, 500
+
 @app.route("/api/items", methods=["GET"])
 def get_items():
-    col = get_collection()
-    categoria = request.args.get("categoria", "todos")
-    
-    if categoria == "todos":
-        query = {}
-    else:
-        query = {"categoria": categoria}
-    
-    rows = list(col.find(query).sort([("cantidad", 1), ("nombre", 1)]))
-    
-    items = []
-    for row in rows:
-        items.append({
-            "id": str(row["_id"]),
-            "nombre": row.get("nombre", ""),
-            "cantidad": row.get("cantidad", 1),
-            "unidad": row.get("unidad", "pza"),
-            "categoria": row.get("categoria", "refri"),
-            "kcal": row.get("kcal", 0),
-            "proteinas": row.get("proteinas", 0),
-            "grasas": row.get("grasas", 0),
-            "carbohidratos": row.get("carbohidratos", 0),
-            "notas": row.get("notas", ""),
-        })
-    
-    return jsonify(items)
+    try:
+        col = get_collection()
+        categoria = request.args.get("categoria", "todos")
+        
+        if categoria == "todos":
+            query = {}
+        else:
+            query = {"categoria": categoria}
+        
+        rows = list(col.find(query, {"nombre": 1, "cantidad": 1, "unidad": 1, "categoria": 1, "kcal": 1, "proteinas": 1, "grasas": 1, "carbohidratos": 1}).sort([("cantidad", 1), ("nombre", 1)]).limit(500))
+        
+        items = []
+        for row in rows:
+            items.append({
+                "id": str(row["_id"]),
+                "nombre": row.get("nombre", ""),
+                "cantidad": row.get("cantidad", 1),
+                "unidad": row.get("unidad", "pza"),
+                "categoria": row.get("categoria", "refri"),
+                "kcal": row.get("kcal", 0),
+                "proteinas": row.get("proteinas", 0),
+                "grasas": row.get("grasas", 0),
+                "carbohidratos": row.get("carbohidratos", 0),
+                "notas": row.get("notas", ""),
+            })
+        
+        return jsonify(items)
+    except Exception as e:
+        return {"error": str(e)}, 500
 
 @app.route("/api/items/en-cero", methods=["GET"])
 def items_en_cero():
