@@ -8,6 +8,6 @@ services:
     envVars:
       - key: MONGO_URI
         sync: false
-        value: "mongodb+srv://f:miPassword123@cluster0.89joi35.mongodb.net/frigoninja?retryWrites=true&w=majority"
+        value: "mongodb+srv://frigoninja:FrigoPass123@cluster0.89joi35.mongodb.net/frigoninja?retryWrites=true&w=majority"
       - key: MONGO_DB
         value: frigoninja
