@@ -10,7 +10,7 @@ from flask_cors import CORS
 from pymongo import MongoClient, DESCENDING
 from pymongo.collection import Collection
 
-MONGO_URI = os.environ.get("MONGO_URI", "mongodb+srv://f:jodido99I!@cluster0.89joi35.mongodb.net/frigoninja?retryWrites=true&w=majority")
+MONGO_URI = os.environ.get("MONGO_URI", "mongodb://localhost:27017")
 DB_NAME = os.environ.get("MONGO_DB", "frigoninja")
 LOCAL_MONGO = os.environ.get("LOCAL_MONGO", "mongodb://localhost:27017")
 
