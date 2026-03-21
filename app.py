@@ -23,20 +23,20 @@ CORS(app)
 
 def get_collection() -> Collection[dict]:
     global client, col
-    if col is None:
+    if col is None or client is None:
         try:
             client = MongoClient(
                 MONGO_URI,
-                serverSelectionTimeoutMS=10000,
-                connectTimeoutMS=10000,
-                socketTimeoutMS=10000
+                serverSelectionTimeoutMS=5000,
+                connectTimeoutMS=5000,
+                socketTimeoutMS=5000,
+                maxPoolSize=10
             )
             client.admin.command('ping')
             col = client[DB_NAME]["items"]
         except Exception as e:
             print(f"MongoDB connection error: {e}")
-            client = MongoClient(LOCAL_MONGO)
-            col = client[DB_NAME]["items"]
+            raise e
     return col
 
 def get_consumo_collection() -> Collection[dict]:
