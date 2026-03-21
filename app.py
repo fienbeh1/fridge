@@ -179,6 +179,18 @@ TEMPLATE = """<!DOCTYPE html>
         <h1>Refrigerador</h1>
       </section>
 
+      <section class="panel" style="background:rgba(231,76,60,0.08); border:2px solid #e74c3c;">
+        <h2 style="color:#c0392b;">⚠️ Artículos Agotados o en Cero</h2>
+        <div class="section-tabs">
+          <button class="tab active" onclick="filtrarEnCero('todos')">Todos</button>
+          <button class="tab" onclick="filtrarEnCero('refrigerador')">Refrigerador</button>
+          <button class="tab" onclick="filtrarEnCero('alacena')">Alacena</button>
+        </div>
+        <div id="en-cero-list" style="max-height:200px; overflow-y:auto;">
+          <p style="color:var(--soft); font-size:0.85rem;">Cargando...</p>
+        </div>
+      </section>
+
       <section class="panel">
         <h2>Resumen Nutricional Diario</h2>
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
@@ -338,7 +350,7 @@ TEMPLATE = """<!DOCTYPE html>
           </div>
           <div>
             <label>Cantidad (g)</label>
-            <input id="cons-cantidad" type="number" value="100" placeholder="100">
+            <input id="cons-cantidad" type="number" value="250" placeholder="250">
           </div>
         </div>
         <div class="form-row" style="margin-top:0.5rem;">
@@ -373,6 +385,8 @@ TEMPLATE = """<!DOCTYPE html>
                 <option value="legumbres">Legumbres</option>
                 <option value="condimentos">Condimentos</option>
                 <option value="bebidas">Bebidas</option>
+                <option value="comida-china">Comida China</option>
+                <option value="alacena">Alacena</option>
                 <option value="otros">Otros</option>
               </select>
             </div>
@@ -457,6 +471,8 @@ TEMPLATE = """<!DOCTYPE html>
           <button class="tab" data-cat="granos">Granos</button>
           <button class="tab" data-cat="legumbres">Legumbres</button>
           <button class="tab" data-cat="bebidas">Bebidas</button>
+          <button class="tab" data-cat="comida-china">🍜 China</button>
+          <button class="tab" data-cat="alacena">🏪 Alacena</button>
         </div>
         <div class="table-wrapper">
           <table id="itemsTable">
@@ -539,7 +555,7 @@ TEMPLATE = """<!DOCTYPE html>
           { nombre: 'Queso Monterrey', cantidad: '200g', kcal: 350, prot: 25, gras: 28, carb: 1, azuc: 0, fibra: 0, ig: 0, cad_refri: 14, cad_cong: 60, img: '🧀' },
           { nombre: 'Crema', cantidad: '500ml', kcal: 210, prot: 2, gras: 22, carb: 4, azuc: 3, fibra: 0, ig: 0, cad_refri: 7, cad_cong: 60, img: '🥛' },
           { nombre: 'Yogur natural', cantidad: '500g', kcal: 59, prot: 3.5, gras: 1, carb: 4, azuc: 4, fibra: 0, ig: 15, cad_refri: 14, cad_cong: 45, img: '🥛' },
-          { nombre: 'Mantequilla', cantidad: '250g', kcal: 717, prot: 1, gras: 81, carb: 0.1, azuc: 0.1, fibra: 0, ig: 0, cad_refri: 30, cad_cong: 180, tipo: 'alto-grasa', img: '🧈' },
+          { nombre: 'Mantequilla barra', cantidad: '90g', kcal: 717, prot: 1, gras: 81, carb: 0.1, azuc: 0.1, fibra: 0, ig: 0, cad_refri: 30, cad_cong: 180, tipo: 'alto-grasa', img: '🧈' },
           { nombre: 'Pastel de queso', cantidad: '1/2 pastel', kcal: 320, prot: 6, gras: 18, carb: 35, azuc: 25, fibra: 0, ig: 45, cad_refri: 5, cad_cong: 30, img: '🍰' },
         ],
         leches: [
@@ -820,7 +836,39 @@ TEMPLATE = """<!DOCTYPE html>
           getOrson = Math.round(data.orson.get);
           getMaritza = Math.round(data.maritza.get);
           await cargarConsumoHoy();
+          cargarEnCero('todos');
         } catch (e) { console.error('Error cargando kcal:', e); }
+      }
+
+      let enCeroFilter = 'todos';
+
+      async function cargarEnCero(filtro) {
+        enCeroFilter = filtro;
+        document.querySelectorAll('#en-cero-list + .section-tabs .tab, .panel:has(#en-cero-list) .tab').forEach(t => {
+          t.classList.remove('active');
+        });
+        try {
+          const cat = filtro === 'refrigerador' ? 'todos' : filtro;
+          const res = await fetch('/api/refrigerador/en-cero?categoria=' + cat);
+          const items = await res.json();
+          const list = document.getElementById('en-cero-list');
+          if (items.length === 0) {
+            list.innerHTML = '<p style="color:var(--soft); font-size:0.85rem;">No hay artículos agotados</p>';
+            return;
+          }
+          list.innerHTML = '<div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:0.5rem;">' +
+            items.map(item => {
+              const bgColor = item.categoria === 'alacena' ? 'rgba(142,68,173,0.15)' : 'rgba(41,128,185,0.15)';
+              return '<div style="padding:0.5rem; background:' + bgColor + '; border-radius:0.5rem; display:flex; justify-content:space-between; align-items:center;">' +
+                '<div><strong>' + item.nombre + '</strong><br><small style="color:var(--soft);">' + (item.categoria === 'alacena' ? 'Alacena' : 'Refrigerador') + '</small></div>' +
+                '<div style="text-align:right;"><span style="color:#e74c3c; font-weight:bold;">0</span><br><small>' + item.cantidad + '</small></div>' +
+                '</div>';
+            }).join('') + '</div>';
+        } catch (e) { console.error('Error cargando en cero:', e); }
+      }
+
+      function filtrarEnCero(filtro) {
+        cargarEnCero(filtro);
       }
 
       async function cargarConsumoHoy() {
@@ -1330,7 +1378,7 @@ def refrigerador():
         now = datetime.now(timezone.utc)
         categoria = data.get("categoria", "otros")
 
-        caducidad_dias = {"frutas": 5, "verduras": 7, "carnes": 3, "lacteos": 7, "congelados": 90, "granos": 30, "legumbres": 7, "condimentos": 180, "bebidas": 30}.get(categoria, 14)
+        caducidad_dias = {"frutas": 5, "verduras": 7, "carnes": 3, "lacteos": 7, "congelados": 90, "granos": 30, "legumbres": 7, "condimentos": 365, "bebidas": 180, "alacena": 365}.get(categoria, 14)
 
         if data.get("consumir_antes"):
             consumir_antes = data["consumir_antes"]
@@ -1366,7 +1414,14 @@ def refrigerador():
         return {"ok": True, "id": str(result.inserted_id)}, 201
 
     categoria = request.args.get("categoria")
-    query = {"categoria": categoria} if categoria and categoria != "todos" else {}
+    
+    if categoria == "todos":
+        query = {"categoria": {"$ne": "alacena"}}
+    elif categoria == "alacena":
+        query = {"categoria": "alacena"}
+    else:
+        query = {"categoria": categoria} if categoria else {}
+    
     rows = list(collection.find(query).sort("consumir_antes", 1 if categoria else DESCENDING))
 
     items = [{
@@ -1543,6 +1598,55 @@ def consumo_estadisticas():
     return jsonify({"estadisticas": stats, "periodo_dias": dias})
 
 
+@app.route("/api/refrigerador/en-cero", methods=["GET"])
+def items_en_cero():
+    collection = get_collection()
+    query = request.args.get("categoria")
+    if query and query != "todos":
+        rows = list(collection.find({"categoria": query}).sort("nombre", 1))
+    else:
+        rows = list(collection.find({}).sort("nombre", 1))
+    
+    items = []
+    for row in rows:
+        cantidad_str = row.get("cantidad", "0")
+        try:
+            cantidad_num = float(cantidad_str.split()[0]) if cantidad_str else 0
+        except:
+            cantidad_num = 0
+        items.append({
+            "id": str(row["_id"]),
+            "nombre": row["nombre"],
+            "cantidad": row.get("cantidad"),
+            "cantidad_num": cantidad_num,
+            "categoria": row.get("categoria"),
+            "kcal": row.get("kcal", 0),
+            "proteinas": row.get("proteinas", 0),
+            "grasas": row.get("grasas", 0),
+            "carbohidratos": row.get("carbohidratos", 0),
+            "azucares": row.get("azucares", 0),
+            "fibra": row.get("fibra", 0),
+            "ig": row.get("ig", 0),
+            "consumir_antes": row.get("consumir_antes"),
+        })
+    
+    items.sort(key=lambda x: x["cantidad_num"])
+    return jsonify(items)
+
+
+@app.route("/api/refrigerador/<item_id>", methods=["PUT"])
+def update_item(item_id):
+    from bson import ObjectId
+    collection = get_collection()
+    data = request.get_json(force=True)
+    update_data = {}
+    for key in ["nombre", "cantidad", "categoria", "kcal", "proteinas", "grasas", "carbohidratos", "azucares", "fibra", "ig", "consumir_antes"]:
+        if key in data:
+            update_data[key] = data[key]
+    collection.update_one({"_id": ObjectId(item_id)}, {"$set": update_data})
+    return {"ok": True}
+
+
 @app.route("/api/refrigerador/<item_id>/consumir", methods=["POST"])
 def consumir_item(item_id):
     from bson import ObjectId
@@ -1574,14 +1678,7 @@ def consumir_item(item_id):
     }
     
     consumo_col.insert_one(consumo_doc)
-    
-    if item.get("consumido_count", 0) + cantidad >= 1:
-        collection.delete_one({"_id": ObjectId(item_id)})
-    else:
-        collection.update_one(
-            {"_id": ObjectId(item_id)},
-            {"$inc": {"consumido_count": cantidad}}
-        )
+    return {"ok": True}
     
     return {"ok": True}
 
