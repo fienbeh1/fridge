@@ -10,7 +10,7 @@ from flask_cors import CORS
 from pymongo import MongoClient, DESCENDING
 from pymongo.collection import Collection
 
-MONGO_URI = os.environ.get("MONGO_URI", "mongodb://localhost:27017")
+MONGO_URI = os.environ.get("MONGO_URI", "mongodb+srv://f:miPassword123@cluster0.89joi35.mongodb.net/?retryWrites=true&w=majority")
 DB_NAME = os.environ.get("MONGO_DB", "frigoninja")
 LOCAL_MONGO = os.environ.get("LOCAL_MONGO", "mongodb://localhost:27017")
 
@@ -23,20 +23,20 @@ CORS(app)
 
 def get_collection() -> Collection[dict]:
     global client, col
-    if col is None or client is None:
+    if col is None:
         try:
             client = MongoClient(
                 MONGO_URI,
-                serverSelectionTimeoutMS=5000,
-                connectTimeoutMS=5000,
-                socketTimeoutMS=5000,
-                maxPoolSize=10
+                serverSelectionTimeoutMS=10000,
+                connectTimeoutMS=10000,
+                socketTimeoutMS=10000
             )
             client.admin.command('ping')
             col = client[DB_NAME]["items"]
         except Exception as e:
-            print(f"MongoDB connection error: {e}")
-            raise e
+            print(f"Using local MongoDB: {e}")
+            client = MongoClient(LOCAL_MONGO)
+            col = client[DB_NAME]["items"]
     return col
 
 def get_consumo_collection() -> Collection[dict]:
