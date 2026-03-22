@@ -1,22 +1,56 @@
-# Refrigerador local
+# FrigoNinja - Inventario del Hogar
 
-## Levantar el servidor
+Sistema de inventario del hogar para Orson y Maritza.
 
-- Usa el `venv` incluido y `gunicorn` para simular un entorno WSGI:
-  ```bash
-  ./venv/bin/gunicorn -w 4 -b 0.0.0.0:8000 app:app
-  ```
-- Alternativamente ejecuta el helper `start-gunicorn.sh`:
-  ```bash
-  ./start-gunicorn.sh
-  ```
+## Características
+- **Refrigerador**: Frutas, verduras, lácteos, carnes
+- **Alacena**: Artículos de limpieza y hogar
+- **Despensa**: Granos, latas, snacks
+- **Por Comprar**: Lista automática de artículos agotados
+- **Calorías**: Registro de consumo diario con metas personalizadas
 
-## Alias sugerido
+## Tech Stack
+- Flask + Gunicorn
+- MongoDB (local o Atlas)
+- Diseño Dark Mode moderno
 
-Agrega esto a tu `~/.bashrc` (o el shell que uses) para arrancar con alias:
+## Configuración
 
+### Variables de Entorno
 ```bash
-alias refrigerador="cd /home/f/refrigerador-service && ./start-gunicorn.sh"
+export MONGO_URI="mongodb+srv://user:pass@cluster.mongodb.net"
+export LOCAL_MONGO="mongodb://localhost:27017"
+export MONGO_DB="frigoninja"
 ```
 
-Luego basta con correr `refrigerador` y el alias se encargará de cambiar de directorio y levantar gunicorn.
+### Ejecutar Localmente
+```bash
+cd ~/refrigerador-service
+source venv/bin/activate
+gunicorn -w 4 -b 0.0.0.0:8000 app:app
+```
+
+### Servicio Systemd
+```bash
+systemctl --user start refrigerador
+systemctl --user enable refrigerador
+```
+
+### Nginx + SSL
+```bash
+~/setup_nginx.sh
+```
+
+## API Endpoints
+- `GET /api/health` - Estado de la app
+- `GET /api/items?categoria=refri` - Obtener items
+- `POST /api/items` - Agregar item
+- `GET /api/items/en-cero` - Items agotados
+- `GET /api/kcal-info` - Info calórica
+- `POST /api/consumo` - Registrar consumo
+
+## Deploy en get.tech
+1. Clonar repo: `git clone https://github.com/fienbeh1/fridge.git`
+2. Crear venv e instalar deps
+3. Configurar MongoDB
+4. Ejecutar `~/setup_nginx.sh`
