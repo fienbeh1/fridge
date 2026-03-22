@@ -4,10 +4,9 @@ services:
     env: python
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:app
-    healthCheckPath: /
+    healthCheckPath: /api/health
     envVars:
       - key: MONGO_URI
         sync: false
-        value: "mongodb+srv://frigoninja:FrigoPass123@cluster0.89joi35.mongodb.net/frigoninja?retryWrites=true&w=majority"
       - key: MONGO_DB
-        value: frigoninja
+        value: refrigerador
